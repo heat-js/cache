@@ -1,19 +1,30 @@
 
-cacheSymbol = Symbol 'cache'
+import Abstract 	from './abstract'
+import isBefore 	from 'date-fns/isBefore'
+import addSeconds 	from 'date-fns/addSeconds'
 
-export default (scope, callback, ttl = Infinity) ->
-	return (...args) ->
-		token = JSON.stringify args
+export default class Memory extends Abstract
 
-		if cacheSymbol not of callback
-			callback[cacheSymbol] = {}
+	constructor: (namespace) ->
+		super namespace
+		@store = new Map
 
-		if (
-			token not of callback[cacheSymbol] or
-			(callback[cacheSymbol][token].creation + ttl) < (Date.now() / 1000)
-		)
-			callback[cacheSymbol][token] =
-				creation: Date.now() / 1000
-				value: callback.apply scope, args
+	get: (key) ->
+		key 	= [@namespace, key].join '-'
+		data 	= @store.get key
 
-		return callback[cacheSymbol][token].value
+		if not data
+			return
+
+		if isBefore data.ttl, new Date
+			return
+
+		return data.value
+
+	set: (key, value, ttl) ->
+		key = [@namespace, key].join '-'
+		ttl = addSeconds new Date, ttl
+
+		@store.set key, { value, ttl }
+
+		return @

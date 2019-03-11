@@ -1,6 +1,6 @@
 
-import InMemoryCache from '../src/store/memory'
-import DynamoDB from '../src/store/dynamodb'
+import InMemoryCache from '../src/memory'
+import DynamoDB from '../src/dynamodb'
 
 describe 'Test In-Memory Cache', ->
 
