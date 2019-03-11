@@ -1,9 +1,14 @@
 
-export default class Repository
+import Abstract 	from './abstract'
+import isBefore 	from 'date-fns/isBefore'
+import addSeconds 	from 'date-fns/addSeconds'
+import toUnixTime 	from 'date-fns/toUnixTime'
+import fromUnixTime from 'date-fns/fromUnixTime'
 
-	table: 'cache'
+export default class DynamoDb extends Abstract
 
-	constructor: (@db, @namespace = 'default') ->
+	constructor: (@db, @table = 'cache', namespace) ->
+		super namespace
 
 	get: (key) ->
 		key = [@namespace, key].join '-'
@@ -43,7 +48,7 @@ export default class Repository
 		ttl = addSeconds new Date, ttl
 		ttl = toUnixTime ttl
 
-		return @db.put {
+		await @db.put {
 			TableName: @table
 			Item: {
 				key
@@ -52,3 +57,5 @@ export default class Repository
 			}
 		}
 		.promise()
+
+		return @

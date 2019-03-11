@@ -1,13 +1,7 @@
 
-import isBefore 	from 'date-fns/isBefore'
-import addSeconds 	from 'date-fns/addSeconds'
-import toUnixTime 	from 'date-fns/toUnixTime'
-import fromUnixTime from 'date-fns/fromUnixTime'
-
-export default class DynamoCacheObject
+export default class Store
 
 	constructor: (@cache) ->
-		@cache = new Set
 		@_promises = []
 
 	cache: (key, methodName, ttl = Infinity) ->
