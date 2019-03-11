@@ -1,0 +1,34 @@
+{
+  "name": "@heat/cache",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heat-js/cache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heat-js/cache/issues"
+  },
+  "scripts": {
+    "patch": "yarn publish --patch",
+    "minor": "yarn publish --minor",
+    "major": "yarn publish --major",
+    "prepublish": "bash ./build.sh",
+    "postpublish": "yarn cleanup",
+    "cleanup": "rm *.js"
+  },
+  "babel": {
+    "plugins": [
+      "babel-plugin-transform-es2015-modules-commonjs-optimized"
+    ]
+  },
+  "dependencies": {
+    "date-fns": "2.0.0-alpha.25"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs-optimized": "^6.16.0",
+    "coffeescript": "^2.3.2"
+  }
+}
