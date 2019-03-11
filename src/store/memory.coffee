@@ -13,6 +13,9 @@ export default class Memory extends Abstract
 		key 	= [@namespace, key].join '-'
 		data 	= @store.get key
 
+		if not data
+			return
+
 		if isBefore data.ttl, new Date
 			return
 

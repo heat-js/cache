@@ -2,10 +2,10 @@
 import Abstract 	from './abstract'
 import isBefore 	from 'date-fns/isBefore'
 import addSeconds 	from 'date-fns/addSeconds'
-import toUnixTime 	from 'date-fns/toUnixTime'
+import getUnixTime 	from 'date-fns/getUnixTime'
 import fromUnixTime from 'date-fns/fromUnixTime'
 
-export default class DynamoDb extends Abstract
+export default class DynamoDB extends Abstract
 
 	constructor: (@db, @table = 'cache', namespace) ->
 		super namespace
@@ -46,7 +46,7 @@ export default class DynamoDb extends Abstract
 	set: (key, value, ttl) ->
 		key = [@namespace, key].join '-'
 		ttl = addSeconds new Date, ttl
-		ttl = toUnixTime ttl
+		ttl = getUnixTime ttl
 
 		await @db.put {
 			TableName: @table
